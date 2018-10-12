@@ -50,12 +50,12 @@ compNAND(E1, E2, S):-
 	compAND(E1, E2, T),
 	compNOT(T, S).
 
-% Para la compNOR implemente negue la compOR con compNOT
+% Para la compNOR negue la compOR con compNOT
 compNOR(E1, E2, S):-
 	compOR(E1, E2, T),
 	compNOT(T, S).
 
-% Para compXOR, donde se retorna valor positivo solo en los casos
+% Para compXOR, donde el resultado es valor positivo solo en los casos
 % donde ambas entradas son diferentes, pense ...
 % si ambos son 1, y los sumo, es 2, si lo divido entre 2 el resultado sera 0
 % y su residuo tambien sera 0 ...
@@ -71,7 +71,25 @@ compXOR(E1, E2, S):-
 % Para compXNOR negue compXOR con compNOT
 % Touche :D
 % por cierto https://www.youtube.com/watch?v=rZU2N-4UGtQ
-% touche!!
+% touche!! jaja
 compXNOR(E1, E2, S):-
 	compXOR(E1, E2, T),
 	compNOT(T, S).
+
+% circuito legendario
+% organizado de arriba izquierda a derecha abajo
+% de acuerdo a la imagen que representa el circuito
+% comenzamos con la compAND y en ese orden
+% de igual las entradas del circuito
+circuito(E1, E2, E3, S1, S2):-
+	compAND(E1, E3, AND1),
+	compNOR(E2, E3, NOR1),
+	compNAND(AND1, NOR1, NAND1),
+	compNOT(E3, NOT1),
+	compOR(NOT1, E2, OR1),
+	compXOR(NAND1, OR1, XOR1),
+	compXNOR(OR1, E1, S2),
+	compAND(XOR1, OR1, S1).
+
+
+
